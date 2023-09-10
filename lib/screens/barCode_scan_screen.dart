@@ -12,13 +12,13 @@ class ScanScreen extends StatefulWidget {
 class _ScanScreenState extends State<ScanScreen> {
 
   var getResult = 'Awaiting Result';
-  var attendeeslist = ["mazen","naim","becem"];
+  var attendeeslist = ["mazen","nooman","becem"];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bar Code Scanner'),
+        title: const Text('Attendance Check'),
       ),
       body: Center(
           child: Column(
@@ -47,9 +47,9 @@ class _ScanScreenState extends State<ScanScreen> {
       setState(() {
         getResult = barcode;
       });
-      if (attendeeslist.contains(getResult)){
+      if (attendeeslist.contains(getResult))
         print("$getResult Thanks for Checking in");
-      }
+
       else {
         print("You will be added to our Database Thank you for your Attendance ") ;
         attendeeslist.add(getResult);
