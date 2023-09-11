@@ -1,6 +1,9 @@
+import 'package:attendance_verification_appdemo/screens/register%20screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:flutter/widgets.dart';
+import 'w';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);
@@ -33,7 +36,14 @@ class _ScanScreenState extends State<ScanScreen> {
               const SizedBox(height: 20.0,),
               Text(getResult),
             ],
-          )
+          ),const SizedBox(height: 12,),
+      TextButton(
+          onPressed: (){
+            // Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Loginscreen()));
+            Apphelper.navigatetoscreen(context, const RegistrationScreen());
+          },
+          child: const Text("Already have an Account ? Log in now.",style: TextStyle(color: Colors.white),)
+      ),
       ),
     );
   }
