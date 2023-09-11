@@ -41,6 +41,8 @@ dependencies:
   cloud_firestore: ^4.9.1
   firebase_auth: ^4.9.0
   firebase_database: ^10.2.5
+  flutter_sms: ^2.3.3
+  uuid: ^4.0.0
 
 dev_dependencies:
   flutter_test:
