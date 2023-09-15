@@ -1,7 +1,7 @@
 
 
 import 'package:attendance_verification_appdemo/screens/barCode_scan_screen.dart';
-import 'package:attendance_verification_appdemo/screens/register%20screen.dart';
+import 'package:attendance_verification_appdemo/screens/register_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 void main() async{
@@ -17,7 +17,7 @@ class VerifApp extends StatelessWidget {
     return const MaterialApp(
       title: "Scanner",
       debugShowCheckedModeBanner: false,
-      home: RegistrationScreen(),
+      home: ScanScreen(),
 
     );
   }

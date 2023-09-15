@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "159456985126",
+    "firebase_url": "https://authentificationapp-e3dbd-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "authentificationapp-e3dbd",
+    "storage_bucket": "authentificationapp-e3dbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:159456985126:android:3126f2812c923b9211a6e7",
+        "android_client_info": {
+          "package_name": "com.example.attendanceverificationappdemo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "159456985126-ibghj1dh44b85026d2s54dq9fdk88rml.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzBTHtKyhPXTaPzKJOFYcLzIEhZyT_cb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "159456985126-ibghj1dh44b85026d2s54dq9fdk88rml.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
