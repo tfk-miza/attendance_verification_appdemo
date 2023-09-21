@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.attendance_verification_appdemo">
+    <uses-permission android:name="android.permission.SEND_SMS"/>
    <application
         android:label="attendance_verification_appdemo"
         android:name="${applicationName}"

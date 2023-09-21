@@ -1,12 +1,10 @@
-import 'package:attendance_verification_appdemo/models/user_model.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart'; // Import the Firebase Realtime Database package
 import 'package:uuid/uuid.dart';
-
+import 'package:attendance_verification_appdemo/models/user_model.dart'; // Import your User model
 
 class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({super.key});
+  const RegistrationScreen({Key? key}) : super(key: key);
 
   @override
   RegistrationScreenState createState() => RegistrationScreenState();
@@ -20,7 +18,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   final TextEditingController prenomController = TextEditingController();
   final TextEditingController telController = TextEditingController();
 
-  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseDatabase database = FirebaseDatabase.instance; // Initialize the Firebase Realtime Database
   final Uuid uuid = const Uuid();
 
   @override
@@ -81,11 +79,8 @@ class RegistrationScreenState extends State<RegistrationScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
-
                   if (_formKey.currentState!.validate()) {
-
                     String userId = uuid.v4();
-
 
                     User newUser = User(
                       userId: userId,
@@ -95,15 +90,13 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       tel: telController.text,
                     );
 
-                    // Store user data in Firebase Firestore
+                    // Store user data in the Firebase Realtime Database
                     storeUserData(newUser);
-
 
                     mailController.clear();
                     nomController.clear();
                     prenomController.clear();
                     telController.clear();
-
 
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
@@ -121,18 +114,22 @@ class RegistrationScreenState extends State<RegistrationScreen> {
     );
   }
 
-
   void storeUserData(User user) {
-    firestore.collection('Users').doc(user.userId).set({
-      'mail': user.mail,
-      'nom': user.nom,
-      'prenom': user.prenom,
-      'tel': user.tel,
-    }).then((value) {
+    DatabaseReference userRef = database.ref().child('users').child(user.userId);
+
+    // Convert the User object to a Map
+    Map<String, dynamic> userData = {
+      'Mail': user.mail,
+      'Nom': user.nom,
+      'Prenom': user.prenom,
+      'Tel': user.tel,
+    };
+
+    // Add the user data to the Realtime Database
+    userRef.set(userData).then((_) {
       print('User data added with ID: ${user.userId}');
     }).catchError((error) {
       print('Error adding user data: $error');
     });
   }
 }
-
