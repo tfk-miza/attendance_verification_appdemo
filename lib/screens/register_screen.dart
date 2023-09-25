@@ -141,6 +141,7 @@ void storeUserData(User user) {
       'Nom': user.nom,
       'Prenom': user.prenom,
       'Tel': user.tel,
+      'attended' : true
     };
 
 

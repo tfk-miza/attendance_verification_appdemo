@@ -82,6 +82,8 @@
 // }
 import 'package:attendance_verification_appdemo/helpers/app_helper.dart';
 import 'package:attendance_verification_appdemo/screens/register_screen.dart';
+import 'package:attendance_verification_appdemo/screens/sms_sent_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -114,7 +116,7 @@ class _ScanScreenState extends State<ScanScreen> {
               onPressed: () {
                 scanBarCode();
               },
-              child: const Text('Scan Bar Code'),
+              child: const Text('Scan QR Code'),
             ),
             // const SizedBox(
             //   height: 20.0,
@@ -129,7 +131,7 @@ class _ScanScreenState extends State<ScanScreen> {
                 Apphelper.navigatetoscreen(context, const RegistrationScreen());
               },
               child: const Text(
-                "Vous n'êtes pas inscris ? S'inscrire Maintenant",
+                "Vous n'êtes pas inscris ? S'inscrire Maintenant Cliquez Ici",
                 style: TextStyle(color: Colors.black),
               ),
             ),
@@ -170,16 +172,31 @@ class _ScanScreenState extends State<ScanScreen> {
           final List<String> recipients = [recipientPhoneNumber];
 
           _sendSMS(message, recipients);
-          print("$nom $prenom un sms a été envoyé");
+          if (kDebugMode) {
+            print("$nom $prenom un sms a été envoyé");
+          }
+
+          Apphelper.navigatetoscreen(context, const SmsSentScreen());
+
+          await usersRef.update({'attended': true});
+          if (kDebugMode) {
+            print('User attendance status updated to true');
+          }
+
+
         } else {
           setState(() {
-            print('User not found in the database.');
+            if (kDebugMode) {
+              print('User not found in the database.');
+            }
           });
         }
       });
     } on PlatformException {
       setState(() {
-        print('Failed to scan Bar Code.');
+        if (kDebugMode) {
+          print('Failed to scan Bar Code.');
+        }
       });
     }
   }
@@ -189,8 +206,12 @@ class _ScanScreenState extends State<ScanScreen> {
     final String result = await sendSMS(
         message: message, recipients: recipients, sendDirect: true);
 
-    print(result);
+    if (kDebugMode) {
+      print(result);
+    }
   }
+
+
 
 }
   // void sendSMS(String message, String recipientPhoneNumber) async {

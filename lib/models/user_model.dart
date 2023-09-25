@@ -7,6 +7,7 @@ class User {
   final String nom;
   final String prenom;
   final String tel;
+  bool attended ;
 
   User({
     required this.userId,
@@ -14,6 +15,7 @@ class User {
     required this.nom,
     required this.prenom,
     required this.tel,
+    this.attended = false,
   });
 
   factory User.fromFirestore(
@@ -27,6 +29,7 @@ class User {
       nom: data?['Nom'],
       prenom: data?['Prenom'],
       tel: data?['Tel'],
+      attended: data?['attended']
     );
   }
 
@@ -37,6 +40,7 @@ class User {
       if (nom != null) "Nom": nom,
       if (prenom != null) "Prenom": prenom,
       if (tel != null) "Tel": tel,
+      if (attended != null) "attended": attended,
     };
   }
 }
