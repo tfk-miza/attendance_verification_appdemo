@@ -135,7 +135,7 @@ void storeUserData(User user) {
     DatabaseReference userRef = database.ref().child('users').child(
         user.userId);
 
-    // Convert the User object to a Map
+
     Map<String, dynamic> userData = {
       'Mail': user.mail,
       'Nom': user.nom,
@@ -143,7 +143,7 @@ void storeUserData(User user) {
       'Tel': user.tel,
     };
 
-    // Add the user data to the Realtime Database
+
     userRef.set(userData).then((_) {
       print('User data added with ID: ${user.userId}');
     }).catchError((error) {
