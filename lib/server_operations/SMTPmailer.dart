@@ -13,7 +13,7 @@ void sendEmail(String email) async {
     ..recipients.add(email)
     ..subject = 'Test Dart Mailer'
     ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-    ..html = "<h1>Seca</h1>\n<p>Smart ärking</p>";
+    ..html = "<h1>Seca</h1>\n<p>Smart parking</p>";
 
   try {
     final sendReport = await send(message, smtpServer);

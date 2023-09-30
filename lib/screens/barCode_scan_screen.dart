@@ -89,6 +89,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:attendance_verification_appdemo/server_operations/DataUpload.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);
@@ -98,25 +99,52 @@ class ScanScreen extends StatefulWidget {
 }
 
 class _ScanScreenState extends State<ScanScreen> {
-  var getResult = 'Awaiting Result';
+
+  var getResult = '';
   String nom = '';
   String prenom = '';
+  DataUpload dataUpload = DataUpload();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Call uploadDataToLocalServer when the screen is launched
+    _uploadDataOnScreenLaunch();
+  }
+
+  // Function to upload data to the local server
+  Future<void> _uploadDataOnScreenLaunch() async {
+    try {
+      // Call the uploadDataToLocalServer function from your DataUpload instance
+      await dataUpload.uploadDataToLocalServer();
+
+      // Rest of your code...
+    } catch (e) {
+      if (kDebugMode) {
+        print('Error uploading data on screen launch: $e');
+      }
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Attendance Check'),
+        backgroundColor: Colors.deepOrange,
+        title: const Text('Attendance Check',style: TextStyle(color: Colors.black),),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.deepOrange),
               onPressed: () {
                 scanBarCode();
               },
-              child: const Text('Scan QR Code'),
+              child: const Text('Scan QR Code',style: TextStyle(color: Colors.black),),
             ),
             // const SizedBox(
             //   height: 20.0,
@@ -127,7 +155,6 @@ class _ScanScreenState extends State<ScanScreen> {
             ),
             TextButton(
               onPressed: () {
-                // Navigator.of(context).push(MaterialPageRoute(builder: (_) => const Loginscreen()));
                 Apphelper.navigatetoscreen(context, const RegistrationScreen());
               },
               child: const Text(

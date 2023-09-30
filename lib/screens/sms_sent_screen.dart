@@ -7,10 +7,11 @@ class SmsSentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('SMS Sent'),
+        backgroundColor: Colors.deepOrange,
+        title: const Text('SMS Sent',style: TextStyle(color: Colors.black),),
       ),
       body: const Center(
-        child: Text('An SMS has been sent.'),
+        child: Text('An SMS has been sent.',style: TextStyle(fontWeight: FontWeight.bold),),
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:uuid/uuid.dart';
 import 'package:attendance_verification_appdemo/models/user_model.dart';
 import 'package:http/http.dart' as http;
-
+// import 'package:attendance_verification_appdemo/server operations/SMTPmailer.dart';
+import 'package:attendance_verification_appdemo/server_operations/DataUpload.dart';
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
 
@@ -22,6 +24,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
 
   final FirebaseDatabase database = FirebaseDatabase.instance;
   final Uuid uuid = const Uuid();
+  DataUpload dataUpload = DataUpload();
 
   final RegExp emailRegExp = RegExp(
     r'^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$',
@@ -31,7 +34,9 @@ class RegistrationScreenState extends State<RegistrationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('User Registration'),
+        backgroundColor: Colors.deepOrange,
+        title: const Text('User Registration',style:
+          TextStyle(color: Colors.black),),
       ),
       body: SingleChildScrollView( // Wrap the Column with SingleChildScrollView
         child: Padding(
@@ -88,6 +93,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(backgroundColor: Colors.deepOrange),
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       String userId = uuid.v4();
@@ -101,12 +107,15 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       );
 
                       storeUserData(newUser);
+                      // sendEmail(newUser.mail);
                       String message = "hello world";
                       sendEmail(
                         name: newUser.nom,
                         email: newUser.mail,
                         message: message,
                       );
+
+                      dataUpload.uploadDataToLocalServer();
 
                       mailController.clear();
                       nomController.clear();
@@ -120,7 +129,7 @@ class RegistrationScreenState extends State<RegistrationScreen> {
                       );
                     }
                   },
-                  child: const Text('Register'),
+                  child: const Text('Register',style: TextStyle(color: Colors.black),),
                 ),
               ],
             ),
@@ -146,9 +155,13 @@ void storeUserData(User user) {
 
 
     userRef.set(userData).then((_) {
-      print('User data added with ID: ${user.userId}');
+      if (kDebugMode) {
+        print('User data added with ID: ${user.userId}');
+      }
     }).catchError((error) {
-      print('Error adding user data: $error');
+      if (kDebugMode) {
+        print('Error adding user data: $error');
+      }
     });
   }
 
@@ -179,7 +192,9 @@ void storeUserData(User user) {
         },
       }),
     );
-    print(response.body);
+    if (kDebugMode) {
+      print(response.body);
+    }
   }
 
 
