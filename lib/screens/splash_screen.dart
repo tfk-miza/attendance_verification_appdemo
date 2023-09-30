@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'barCode_scan_screen.dart';
+// import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -29,20 +30,20 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.blueAccent,
+      color: Colors.grey,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children:
         [
-          Image.asset("assets/images/Seca1.png"),
+          Image.asset("lib/assets/images/Seca1.png"),
           const SizedBox(height: 35,),
 
-          const Text("Bienvenue dans l'avenir du stationnement : Simple, Rapide, Automatisé!", style: TextStyle(
-              color: Colors.white,
-              fontSize: 25,
+          const Text("Le stationnement simplifié, la vie amplifiée", style: TextStyle(
+              color: Colors.black,
+              fontSize: 15,
               fontWeight: FontWeight.normal,
-              fontFamily: 'Raleway'
+              fontFamily: 'Roboto'
           ),)
         ],
       ),
