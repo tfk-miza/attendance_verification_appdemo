@@ -89,7 +89,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:flutter_sms/flutter_sms.dart';
 import 'package:firebase_database/firebase_database.dart';
-import 'package:attendance_verification_appdemo/server_operations/DataUpload.dart';
 
 class ScanScreen extends StatefulWidget {
   const ScanScreen({Key? key}) : super(key: key);
@@ -103,29 +102,16 @@ class _ScanScreenState extends State<ScanScreen> {
   var getResult = '';
   String nom = '';
   String prenom = '';
-  DataUpload dataUpload = DataUpload();
+  // DataUpload dataUpload = DataUpload();
 
   @override
   void initState() {
     super.initState();
 
-    // Call uploadDataToLocalServer when the screen is launched
-    _uploadDataOnScreenLaunch();
+    // dataUpload.uploadDataToLocalServer();
   }
 
-  // Function to upload data to the local server
-  Future<void> _uploadDataOnScreenLaunch() async {
-    try {
-      // Call the uploadDataToLocalServer function from your DataUpload instance
-      await dataUpload.uploadDataToLocalServer();
 
-      // Rest of your code...
-    } catch (e) {
-      if (kDebugMode) {
-        print('Error uploading data on screen launch: $e');
-      }
-    }
-  }
 
 
   @override

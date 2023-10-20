@@ -1,39 +1,73 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/io.dart';
 import 'package:flutter/foundation.dart';
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
+import '../models/user_model.dart';
 
 class DataUpload {
-  Future<void> uploadDataToLocalServer() async {
-    // Step 1: Fetch data from Firebase Realtime Database
-    const String firebaseUrl = 'https://authentificationapp-e3dbd-default-rtdb.europe-west1.firebasedatabase.app/';
-    final response = await http.get(Uri.parse(firebaseUrl));
+  Future<void> uploadDataToLocalServerFromForm(User user) async {
+    const firebaseUrl = 'https://authentificationapp-e3dbd-default-rtdb.europe-west1.firebasedatabase.app/.json';
+    const serverUrl = 'https://192.168.100.55:8083/api/users/';
 
-    if (response.statusCode == 200) {
-      final dataFromFirebase = jsonDecode(response.body);
+    final dio = Dio(BaseOptions(validateStatus: (status) => true));
 
-      // Step 2: Define the local server URL
-      const String localServerUrl = 'https://192.168.100.55:8083/api/users/mazen12';
+    (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
+        (client) {
+      client.badCertificateCallback =
+          (X509Certificate cert, String host, int port) => true;
+      return null;
+    };
 
-      // Step 3: Send data to the local server using a POST request
-      final localServerResponse = await http.post(
-        Uri.parse(localServerUrl),
-        headers: {'Content-Type': 'application/json'},
-        body: jsonEncode(dataFromFirebase),
-      );
+    try {
+      final firebaseResponse = await dio.get(firebaseUrl);
 
-      if (localServerResponse.statusCode == 200) {
-        if (kDebugMode) {
-          print('Data uploaded to the local server successfully.');
+      if (firebaseResponse.statusCode == 200) {
+        final firebaseData = firebaseResponse.toString();
+
+        final processedData = processData(firebaseData);
+        processedData['id'] = user.userId;
+        processedData['firstName'] = user.prenom;
+        processedData['lastName'] = user.nom;
+        processedData['phoneNumber'] = int.parse(user.tel);
+        processedData['email'] = user.mail;
+
+        final serverResponse = await dio.post(
+          serverUrl,
+          data: processedData,
+          options: Options(
+            headers: {
+              'origin' : 'http://localhost',
+              'Content-Type': 'application/json'},
+          ),
+        );
+
+        if (serverResponse.statusCode == 200) {
+          if (kDebugMode) {
+            print('Data uploaded to the server successfully.');
+          }
+        } else {
+          if (kDebugMode) {
+            print(
+              'Failed to upload data to the server. Status code: ${serverResponse
+                  .statusCode}');
+          }
         }
       } else {
         if (kDebugMode) {
-          print('Failed to upload data to the local server.');
+          print(
+            'Failed to fetch data from Firebase. Status code: ${firebaseResponse
+                .statusCode}');
         }
       }
-    } else {
+    } catch (e) {
       if (kDebugMode) {
-        print('Failed to fetch data from Firebase.');
+        print('Error: $e');
       }
     }
+  }
+
+  Map<String, dynamic> processData(String firebaseData) {
+    return json.decode(firebaseData);
   }
 }
