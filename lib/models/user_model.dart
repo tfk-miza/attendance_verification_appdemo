@@ -1,4 +1,6 @@
 
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class User {
@@ -42,5 +44,22 @@ class User {
       if (tel != null) "Tel": tel,
       if (attended != null) "attended": attended,
     };
+  }
+
+  Map<String, dynamic> toServer() {
+    return {
+      if (mail != null) "email": mail,
+      if (nom != null) "lastName": nom,
+      if (prenom != null) "firstName": prenom,
+      if (tel != null) "phoneNumber": tel,
+    };
+  }
+
+  String toJson() {
+    return jsonEncode(toFirestore());
+  }
+
+  String writeToServer(){
+    return jsonEncode(toServer());
   }
 }

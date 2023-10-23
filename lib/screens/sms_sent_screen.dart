@@ -12,7 +12,7 @@ class SmsSentScreen extends StatelessWidget {
       ),
       body: const Center(
         child: Text('An SMS has been sent. '
-            'Please make sure to  enable SMS Permission in the App Settings in case no SMS was Sent',style: TextStyle(fontWeight: FontWeight.bold),),
+            'Please make sure to  enable SMS Permission in the App Settings in case no SMS was received',style: TextStyle(fontWeight: FontWeight.bold),textAlign: TextAlign.center,),
       ),
     );
   }
